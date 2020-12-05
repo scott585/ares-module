@@ -68,6 +68,7 @@ public class ApiController {
 		PriceModel priceModel = new PriceModel(symbol, price,sn);
 		priceModel.setNodes(nodes);
 		redisUtils.setHisListCach(priceModel);
+		priceModel.setNodes(null);
 		return R.ok().put("data",priceModel);
 	}
 	
