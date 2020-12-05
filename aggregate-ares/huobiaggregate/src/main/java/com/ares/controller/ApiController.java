@@ -80,4 +80,11 @@ public class ApiController {
 	
 	
 	
+	@RequestMapping("getHisPrice/{symbol}/{sn}")
+	private R getHisPrice(@PathVariable("symbol") String symbol,@PathVariable("sn") String sn) {
+		return R.ok().put("data",redisUtils.getHisListCach(symbol,sn, 10));
+	}
+	
+	
+	
 }
