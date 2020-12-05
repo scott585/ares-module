@@ -1,6 +1,7 @@
 package com.ares.uitl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ares.model.PriceModel;
 import com.huobi.utils.SymbolUtils;
@@ -35,6 +37,19 @@ public class RedisUtils {
 	
 	public Object getCach(String symbol,String market){
 		return redis.opsForHash().get(symbol, market);
-}
+	}
+	
+	public void setHisListCach(PriceModel priceModel) {
+		redis.opsForList().leftPush("his:"+priceModel.getSymbol(), JSONObject.toJSONString(priceModel));
+	}
+	
+	public List<JSONObject> getHisListCach(String symbol,Integer size) {
+		List<String> list = redis.opsForList().range("his:"+symbol, 0, size);
+		List<JSONObject> priceModelList=new ArrayList<JSONObject>();
+		for (String json : list) {
+			priceModelList.add(JSONObject.parseObject(json));
+		}
+		return  priceModelList;
+	}
 	
 }
