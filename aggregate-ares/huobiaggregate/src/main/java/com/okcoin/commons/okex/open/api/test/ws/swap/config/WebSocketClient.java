@@ -164,7 +164,7 @@ public class WebSocketClient {
                         }
                     }
                 } else {//不是深度接口
-                	if(s.startsWith("{\"table\":\"swap/ticker\",\"data\":")) {
+                	if(s.startsWith("{\"table\":\"spot/ticker\",\"data\":")) {
                 		JSONObject rst = JSONObject.fromObject(s);
                         net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                        JSONObject data = JSONObject.fromObject(dataArr.get(0));

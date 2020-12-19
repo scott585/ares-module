@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ares.model.PriceModel;
+import com.ares.uitl.HuobiOkxeChannelEnum;
 import com.ares.uitl.R;
 import com.ares.uitl.RedisUtils;
 
@@ -83,6 +84,15 @@ public class ApiController {
 	private R getHisPrice(@PathVariable("symbol") String symbol,@PathVariable("sn") String sn) {
 		return R.ok().put("data",redisUtils.getHisListCach(symbol,sn, 10));
 	}
+	
+	@RequestMapping("getPairList")
+	private R getPairList() {
+		return R.ok().put("data",HuobiOkxeChannelEnum.getAllKeyList());
+	}
+	
+	
+	
+	
 	
 	
 	

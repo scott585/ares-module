@@ -1,6 +1,6 @@
 package com.ares.model;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,6 +11,10 @@ public class PriceModel {
 	private String symbol;
 	
 	private double price;
+	
+	private List<PriceModel> nodes;
+	
+	private String sn;
 	
 	private Long systs=System.currentTimeMillis();
 	
@@ -29,6 +33,16 @@ public class PriceModel {
 		this.symbol = symbol;
 		this.price = price;
 	}
+	
+	
+	public PriceModel(String symbol, double price,String  sn) {
+		super();
+		this.symbol = symbol;
+		this.price = price;
+		this.sn = sn;
+	}
+	
+	
 	
 	
 	

@@ -6,5 +6,5 @@
     "RequestIdentifier": "u64",
     "DataVersion": "u64"
   },
-  "PROVIDER_SOCKET": "ws://127.0.0.1:9944"
+  "PROVIDER_SOCKET": "ws://192.168.75.128:9944"
 }

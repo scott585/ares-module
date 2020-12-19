@@ -5,17 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.events.Event;
 
-import com.alibaba.fastjson.JSONObject;
-import com.ares.uitl.OkxeChannelEnum;
+import com.ares.uitl.HuobiOkxeChannelEnum;
 import com.ares.uitl.RedisUtils;
 import com.huobi.client.MarketClient;
 import com.huobi.client.req.market.SubMbpRefreshUpdateRequest;
@@ -37,6 +34,8 @@ public class ApiRunner implements CommandLineRunner{
 	@Autowired
 	RedisUtils redisUtils;
 	
+	
+	
     public static MarketClient huobimarketClient = MarketClient.create(new HuobiOptions());
 
     private static final WebSocketClient webSocketClient = new WebSocketClient();
@@ -52,10 +51,10 @@ public class ApiRunner implements CommandLineRunner{
 			 List<String> symbolList = SymbolUtils.parseSymbols(symbols);	
 	 		 ArrayList<String> channel = Lists.newArrayList();
 	 		 for (String symbo : symbolList) {
-	 			 channel.add("swap/ticker:"+OkxeChannelEnum.getValue(symbo));
+	 			 channel.add("spot/ticker:"+HuobiOkxeChannelEnum.getValue(symbo));
 			 }
 		 	 WebSocketConfig.publicConnect(webSocketClient,e->{
-		 		 String topic = OkxeChannelEnum.getKey(e.getString("instrument_id"));;
+		 		 String topic = HuobiOkxeChannelEnum.getKey(e.getString("instrument_id"));;
 		 		 redisUtils.setCach(symbols, "okex",topic,e.getDouble("last"), getW3cTimeConvertString2Date(e.getString("timestamp"), "") );
 		     });
 		     //调用订阅方法
@@ -79,14 +78,14 @@ public class ApiRunner implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		if(symbol.contains("huobi")){
-			huobbct("btcusdt,ethusdt,dotusdt");
+			huobbct(HuobiOkxeChannelEnum.getAllKeyString());
 		}
 		if(symbol.contains("okex")) {
-			okexbtc("btcusdt,ethusdt,dotusdt");
+			okexbtc(HuobiOkxeChannelEnum.getAllKeyString());
 		}
 	}
 	
-	
+
 	
 	
 	
